@@ -1,0 +1,34 @@
+service: sls-fast-api-test-project
+
+package:
+  individually: true
+  patterns:
+    - '!**'
+    - 'src/**'
+
+provider:
+  name: aws
+  memorySize: 512
+  runtime: python3.7
+  endpointType: regional
+  vpc: ${self:custom.setupvars.vpc}
+
+custom:
+  setupvars: ${file(./config/${opt:stage}.yml):setupvar}
+  apiKeys:
+    - name: nonprod-profile-v3-swoop-auth
+
+functions:
+  fast_api:
+    name: ${self:service}
+    handler: src/handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          private: true
+
+
+plugins:
+  - serverless-python-requirements
+  - serverless-add-api-key

@@ -1,0 +1,7 @@
+setupvar:
+  vpc:
+    securityGroupIds:
+      - sg-0f35e3bce51c8c4d6
+    subnetIds:
+      - subnet-0e108d130bf063786
+      - subnet-061ec64b6ca16e19c
